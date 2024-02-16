@@ -2,14 +2,11 @@ package com.squareGames.squareGamesAPI;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 @Service
 public class RandomHeartbeat implements HeartbeatSensor{
 
     @Override
     public int get() {
-        Random random = new Random();
-        return random.nextInt(40, 230);
+        return (int) ((Math.random()*(230 - 40))+40);
     }
 }
