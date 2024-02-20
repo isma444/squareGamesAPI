@@ -9,17 +9,17 @@ import java.util.Collection;
 @RestController
 public class HeartbeatController {
 
-    @Autowired
-    private HeartbeatSensor heartbeatSensor;
-    @Autowired
-    private GameCatalog gameCatalog;
-    @GetMapping("/heartbeat")
-    public int getHeartbeat(){
-
-        return heartbeatSensor.get();
-    }
-    @GetMapping("/gamesid")
-    public Collection<String> getGamesId() {
-        return gameCatalog.getGameIdentifiers();
-    }
+//    @Autowired
+//    private HeartbeatSensor heartbeatSensor;
+//    @Autowired
+//    private GameCatalog gameCatalog;
+//    @GetMapping("/heartbeat")
+//    public int getHeartbeat(){
+//
+//        return heartbeatSensor.get();
+//    }
+//    @GetMapping("/gamesCatalog")
+//    public Collection<String> getGamesCatalog() {
+//        return gameCatalog.getGameIdentifiers();
+//    }
 }
