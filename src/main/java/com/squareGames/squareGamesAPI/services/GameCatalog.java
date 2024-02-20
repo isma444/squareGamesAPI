@@ -1,4 +1,4 @@
-package com.squareGames.squareGamesAPI;
+package com.squareGames.squareGamesAPI.services;
 
 import fr.le_campus_numerique.square_games.engine.GameFactory;
 

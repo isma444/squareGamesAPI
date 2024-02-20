@@ -1,4 +1,5 @@
-package com.squareGames.squareGamesAPI;
+package com.squareGames.squareGamesAPI.services;
+import com.squareGames.squareGamesAPI.services.GameCatalog;
 import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
 import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
@@ -6,11 +7,10 @@ import fr.le_campus_numerique.square_games.engine.tictactoe.TicTacToeGameFactory
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service
-public class GameCatalogDummyImpl implements GameCatalog{
+public class GameCatalogDummyImpl implements GameCatalog {
 
     private GameFactory ticTacToeGameFactory = new TicTacToeGameFactory();
     private GameFactory connectFourGameFactory = new ConnectFourGameFactory();
@@ -21,7 +21,7 @@ public class GameCatalogDummyImpl implements GameCatalog{
 
     @Override
     public Collection<String> getGameIdentifiers() {
-        return List.of(ticTacToeGameFactory.getGameId(), connectFourGameFactory.getGameId(), taquinGameFactory.getGameId() );
+        return List.of(ticTacToeGameFactory.getGameFactoryId(), connectFourGameFactory.getGameFactoryId(), taquinGameFactory.getGameFactoryId() );
     }
 
     @Override
