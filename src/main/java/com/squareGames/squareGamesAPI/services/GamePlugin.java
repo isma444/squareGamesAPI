@@ -4,5 +4,5 @@ import org.springframework.cglib.core.Local;
 
 public interface GamePlugin {
 
-    String getName(Local);
+    String getName(String Local);
 }
