@@ -11,6 +11,9 @@ import java.util.*;
 public class GameServiceImpl implements GameService {
 
     @Autowired
+    private GamePlugin;
+
+    @Autowired
     private GameCatalog gameCatalog;
     private Map<UUID ,Game> gamesMap = new HashMap<>();
     @Override
