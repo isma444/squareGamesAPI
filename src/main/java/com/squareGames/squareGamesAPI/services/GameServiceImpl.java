@@ -1,8 +1,10 @@
 package com.squareGames.squareGamesAPI.services;
+import com.squareGames.squareGamesAPI.plugin.GamePlugin;
 import fr.le_campus_numerique.square_games.engine.CellPosition;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -10,22 +12,37 @@ import java.util.*;
 @Service
 public class GameServiceImpl implements GameService {
 
-    @Autowired
-    private GamePlugin;
 
     @Autowired
-    private GameCatalog gameCatalog;
+    private List<GamePlugin> gamePlugins;
+    @Autowired
+    private MessageSource messageSource;
+
+
     private Map<UUID ,Game> gamesMap = new HashMap<>();
+
+
     @Override
-    public Collection<String> getGames() {
-        return gameCatalog.getGameIdentifiers();
+    public List<String> getGames(Locale locale) {
+
+        List<String> GamesName = new ArrayList<String>();
+        for (GamePlugin gameplugin :  gamePlugins) {
+            GamesName.add(messageSource.getMessage(gameplugin.getName().replace(" ", ""), null, locale));
+        }
+        return GamesName;
     }
+
     @Override
     public Game addGame(GameCreationParams params) {
 
-        Game game = gameCatalog.getFactoryById(params.gameType()).createGame(params.playerCount(), params.boardSize());
-        gamesMap.put(game.getId(), game);
-        return game;
+        for(GamePlugin plugin : gamePlugins){
+            if(params.gameType().equals(plugin.getName())){
+                Game game = plugin.getFactory().createGame(params.playerCount(), params.boardSize());
+                gamesMap.put(game.getId(), game);
+                return game;
+            }
+        }
+        return null;
     }
 
 
@@ -55,17 +72,17 @@ public class GameServiceImpl implements GameService {
          return null;
     }
 
-    public Void moveToken(Token token, CellPosition position){
+    public Token moveToken(Token token, CellPosition position){
 
         do {
             try {
                 if (token.canMove()) {
                     token.moveTo(position);
-                    break;
+                   return token;
                 }
             } catch (Exception e) {
                 System.out.println("ça va pas !");
-                break;
+
             }
         }while(true);
 

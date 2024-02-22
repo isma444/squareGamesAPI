@@ -1,5 +1,4 @@
 package com.squareGames.squareGamesAPI.services;
-import com.squareGames.squareGamesAPI.services.GameCatalog;
 import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
 import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
@@ -15,9 +14,7 @@ public class GameCatalogDummyImpl implements GameCatalog {
     private GameFactory ticTacToeGameFactory = new TicTacToeGameFactory();
     private GameFactory connectFourGameFactory = new ConnectFourGameFactory();
     private GameFactory taquinGameFactory = new TaquinGameFactory();
-    GameCatalogDummyImpl(){
 
-    }
 
     @Override
     public Collection<String> getGameIdentifiers() {

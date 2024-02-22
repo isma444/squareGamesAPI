@@ -7,16 +7,17 @@ import fr.le_campus_numerique.square_games.engine.CellPosition;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 
 
 @RestController
 public class GameController {
 
+    @Autowired
+    MessageSource messageSource;
 
     @Autowired
     private GameService gameService;
@@ -24,13 +25,14 @@ public class GameController {
     private GameDto gameToDTO(Game game){
         return new GameDto(game.getId(),game.getFactoryId());
     }
-    private TokenDTO gameToDTO(Token token){
+    private TokenDTO tokenToDTO(Token token){
         return new TokenDTO(token.getName(),token.getPosition());
     }
 
     @GetMapping("/games")
-    public Collection<String> getGames() {
-        return gameService.getGames();
+    public List<String> getGames(@RequestHeader(value = "Accept-Language", required = false)Locale locale) {
+
+        return gameService.getGames(locale);
     }
     @PostMapping("/games")
     public GameDto createGame(@RequestBody GameCreationParams params){
@@ -66,6 +68,11 @@ public class GameController {
 
         return new TokenDTO(token.getName(), position);
     }
+
+//    @GetMapping("/playercount")
+//    public int getPlayerCount(){
+//        return tictactoe.getDefaultPlayerCount();
+//    }
 
 
 
