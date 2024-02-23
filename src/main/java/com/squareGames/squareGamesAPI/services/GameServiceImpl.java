@@ -6,7 +6,6 @@ import fr.le_campus_numerique.square_games.engine.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service

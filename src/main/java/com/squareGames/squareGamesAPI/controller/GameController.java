@@ -17,7 +17,7 @@ import java.util.*;
 public class GameController {
 
     @Autowired
-    MessageSource messageSource;
+    protected MessageSource messageSource;
 
     @Autowired
     private GameService gameService;
@@ -39,7 +39,6 @@ public class GameController {
 
         Game game = gameService.addGame(params);
         GameDto gameDto = new GameDto(game.getId(), game.getFactoryId());
-        System.out.println(game.getId());
         return gameDto;
     }
 
@@ -66,7 +65,7 @@ public class GameController {
             System.out.println("ton token est null !");
         }
 
-        return new TokenDTO(token.getName(), position);
+        return tokenToDTO(token);
     }
 
 //    @GetMapping("/playercount")
