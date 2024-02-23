@@ -33,8 +33,8 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public void update(@RequestBody User user, @PathVariable UUID id){
-        userDAO.updateUser(user);
+    public void update(@RequestBody UserDTO userDTO, @PathVariable UUID id){
+        userDAO.updateUser(id ,userDTO);
     }
 
     @DeleteMapping("/users/{id}")

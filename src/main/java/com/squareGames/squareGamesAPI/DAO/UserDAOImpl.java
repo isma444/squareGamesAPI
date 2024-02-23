@@ -33,10 +33,10 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(UUID id, UserDTO userDTO) {
         for(User oldUser : this.users){
-            if(user.getId().equals(oldUser.getId())){
-                oldUser.setName(user.getName());
+            if(id.equals(oldUser.getId())){
+                oldUser.setName(userDTO.name());
             }
         }
     }

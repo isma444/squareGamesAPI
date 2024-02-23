@@ -8,7 +8,7 @@ public interface UserDAO {
     public List<User> getAllUsers();
     public User getUserById(UUID id);
     public void addUser(UserDTO userDTO);
-    public void updateUser(User user);
+    public void updateUser( UUID id, UserDTO userDTO);
     public void deleteUser(UUID id);
 
 }
