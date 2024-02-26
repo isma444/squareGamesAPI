@@ -1,8 +1,7 @@
 package com.squareGames.squareGamesAPI.DAO;
-import com.squareGames.squareGamesAPI.DTO.UserDTO;
 import com.squareGames.squareGamesAPI.entities.User;
+import com.squareGames.squareGamesAPI.services.UserCreationParams;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,35 +17,50 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User getUserById(UUID id) {
-        for(User user : this.users){
-            if(user.getId().equals(id)){
-                return user;
-            }
-        }
-        return null;
+        return users.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
-    public void addUser(UserDTO userDTO) {
-        User user = new User(userDTO.name());
+    public User addUser(UserCreationParams params) {
+        User user = new User(params.name());
         users.add(user);
+        return user;
     }
 
     @Override
-    public void updateUser(UUID id, UserDTO userDTO) {
-        for(User oldUser : this.users){
-            if(id.equals(oldUser.getId())){
-                oldUser.setName(userDTO.name());
-            }
-        }
+    public User updateUser(UUID id, UserCreationParams params) {
+
+        User userToUpdate = this.users.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+            userToUpdate.setName(params.name());
+            return userToUpdate;
+//        for(User oldUser : this.users){
+//            if(id.equals(oldUser.getId())){
+//                oldUser.setName(userDTO.name());
+//            }
+//        }
+
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        for(User user : this.users){
-            if(user.getId().equals(id)){
-                this.users.remove(user);
-            }
+    public User deleteUser(UUID id) {
+        User userToRemove = this.users.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+//        for(User user : this.users){
+//            if(user.getId().equals(id)){
+//                userToRemove = user;
+//            }
+//        }
+        if(userToRemove != null){
+            this.users.remove(userToRemove);
         }
+        return userToRemove;
     }
 }

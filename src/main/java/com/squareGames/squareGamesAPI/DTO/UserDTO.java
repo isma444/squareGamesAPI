@@ -1,4 +1,6 @@
 package com.squareGames.squareGamesAPI.DTO;
 
-public record UserDTO(String name) {
+import java.util.UUID;
+
+public record UserDTO(String name , UUID id) {
 }

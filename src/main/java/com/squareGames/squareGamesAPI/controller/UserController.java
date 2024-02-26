@@ -2,9 +2,11 @@ package com.squareGames.squareGamesAPI.controller;
 import com.squareGames.squareGamesAPI.DAO.UserDAO;
 import com.squareGames.squareGamesAPI.DTO.UserDTO;
 import com.squareGames.squareGamesAPI.entities.User;
+import com.squareGames.squareGamesAPI.services.UserCreationParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,32 +16,40 @@ public class UserController {
     @Autowired
     private UserDAO userDAO;
 
-    private UserDTO userToDTo(User user){
-        return new UserDTO(user.getName());
+    private UserDTO userToDTO(User user){
+        return new UserDTO(user.getName(), user.getId());
+    }
+    private Collection<UserDTO> ToDTOList(Collection<User> users){
+            return users.stream()
+                    .map(this::userToDTO)
+                    .toList();
     }
     @PostMapping("/users")
-    public void add(@RequestBody UserDTO user){
-        userDAO.addUser(user);
+    public UserDTO add(@RequestBody UserCreationParams params){
+        User addedUser = userDAO.addUser(params);
+        return userToDTO(addedUser);
     }
     @GetMapping("/users")
-    public List<User> getAll(){
-        return userDAO.getAllUsers();
+    public Collection<UserDTO> getAll(){
+        return ToDTOList(userDAO.getAllUsers());
     }
 
     @GetMapping("/users/{id}")
     public UserDTO get(@PathVariable UUID id){
         User user = userDAO.getUserById(id);
-        return userToDTo(user);
+        return userToDTO(user);
     }
 
     @PutMapping("/users/{id}")
-    public void update(@RequestBody UserDTO userDTO, @PathVariable UUID id){
-        userDAO.updateUser(id ,userDTO);
+    public UserDTO update(@RequestBody UserCreationParams params, @PathVariable UUID id){
+        User updatedUser = userDAO.updateUser(id ,params);
+        return userToDTO(updatedUser);
     }
 
     @DeleteMapping("/users/{id}")
-    public void delete(@PathVariable UUID id){
-        userDAO.deleteUser(id);
+    public UserDTO delete(@PathVariable UUID id){
+        User deletedUser = userDAO.deleteUser(id);
+        return userToDTO(deletedUser);
     }
 
 
