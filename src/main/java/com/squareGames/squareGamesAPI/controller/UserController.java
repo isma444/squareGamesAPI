@@ -4,7 +4,6 @@ import com.squareGames.squareGamesAPI.DAO.UserDAO;
 import com.squareGames.squareGamesAPI.DTO.UserDTO;
 import com.squareGames.squareGamesAPI.entities.User;
 import com.squareGames.squareGamesAPI.repository.UserRepository;
-import com.squareGames.squareGamesAPI.services.UserCreationParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
