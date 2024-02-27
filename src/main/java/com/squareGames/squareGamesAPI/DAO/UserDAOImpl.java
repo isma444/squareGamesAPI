@@ -26,7 +26,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User addUser(UserCreationParams params) {
-        User user = new User(params.name(), params.id());
+        User user = new User(params.name());
         users.add(user);
         return user;
     }

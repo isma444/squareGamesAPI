@@ -2,6 +2,7 @@ package com.squareGames.squareGamesAPI.DAO;
 
 import com.squareGames.squareGamesAPI.connection.DbAccess;
 import com.squareGames.squareGamesAPI.entities.User;
+import com.squareGames.squareGamesAPI.repository.UserRepository;
 import com.squareGames.squareGamesAPI.services.UserCreationParams;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @Primary
-public class UserDaoMySql implements UserDAO {
+public class UserDaoMySql implements UserDAO  {
 
 
     private DbAccess dbAccess = DbAccess.getInstance();
@@ -32,7 +33,7 @@ public class UserDaoMySql implements UserDAO {
             while(res.next()){
                 int id = res.getInt("id");
                 String name = res.getString("name");
-                User user = new User(name, id);
+                User user = new User(name);
                 listUser.add(user);
             }
 
@@ -55,7 +56,7 @@ public class UserDaoMySql implements UserDAO {
            while(res.next()){
                int idUser = res.getInt("id");
                String name = res.getString("name");
-               user = new User(name, idUser);
+               user = new User(name);
            }
 
        }catch(Exception e){
@@ -79,7 +80,7 @@ public class UserDaoMySql implements UserDAO {
 
             if(res.next()){
                 int lastId = res.getInt(1);
-                user = new User(params.name(), lastId);
+                user = new User(params.name());
             }
 
 
@@ -102,7 +103,7 @@ public class UserDaoMySql implements UserDAO {
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
 
-            user = new User(params.name(), id);
+            user = new User(params.name());
 
 
         }catch(Exception e){

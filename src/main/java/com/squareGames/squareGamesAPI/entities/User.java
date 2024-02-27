@@ -1,13 +1,23 @@
 package com.squareGames.squareGamesAPI.entities;
 
-public class User  {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class User  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
 
-    public User(String name, int id) {
+    public User(String name) {
         this.name = name;
-        this.id = id;
+    }
+
+    public User() {
+
     }
 
     public int getId() {
