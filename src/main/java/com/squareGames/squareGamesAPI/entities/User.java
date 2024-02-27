@@ -1,23 +1,17 @@
 package com.squareGames.squareGamesAPI.entities;
 
-import java.util.UUID;
-
 public class User  {
 
-    private UUID id;
+    private int id;
     private String name;
 
-    public User(String name) {
+    public User(String name, int id) {
         this.name = name;
-        this.id = UUID.randomUUID();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

@@ -4,15 +4,15 @@ import com.squareGames.squareGamesAPI.DTO.UserDTO;
 import com.squareGames.squareGamesAPI.entities.User;
 import com.squareGames.squareGamesAPI.services.UserCreationParams;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 public class UserController {
 
+//    @Qualifier("userDAOImpl")
     @Autowired
     private UserDAO userDAO;
 
@@ -35,19 +35,19 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public UserDTO get(@PathVariable UUID id){
+    public UserDTO get(@PathVariable int id){
         User user = userDAO.getUserById(id);
         return userToDTO(user);
     }
 
     @PutMapping("/users/{id}")
-    public UserDTO update(@RequestBody UserCreationParams params, @PathVariable UUID id){
+    public UserDTO update(@RequestBody UserCreationParams params, @PathVariable int id){
         User updatedUser = userDAO.updateUser(id ,params);
         return userToDTO(updatedUser);
     }
 
     @DeleteMapping("/users/{id}")
-    public UserDTO delete(@PathVariable UUID id){
+    public UserDTO delete(@PathVariable int id){
         User deletedUser = userDAO.deleteUser(id);
         return userToDTO(deletedUser);
     }

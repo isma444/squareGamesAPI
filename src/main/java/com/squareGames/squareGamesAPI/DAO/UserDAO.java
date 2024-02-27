@@ -1,16 +1,14 @@
 package com.squareGames.squareGamesAPI.DAO;
-import com.squareGames.squareGamesAPI.DTO.UserDTO;
 import com.squareGames.squareGamesAPI.entities.User;
 import com.squareGames.squareGamesAPI.services.UserCreationParams;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.Collection;
 
 public interface UserDAO {
-    public List<User> getAllUsers();
-    public User getUserById(UUID id);
+    public Collection<User> getAllUsers();
+    public User getUserById(int id);
     public User addUser(UserCreationParams params);
-    public User updateUser( UUID id, UserCreationParams params);
-    public User deleteUser(UUID id);
+    public User updateUser(int id, UserCreationParams params);
+    public User deleteUser(int id);
 
 }

@@ -2,11 +2,12 @@ package com.squareGames.squareGamesAPI.DAO;
 import com.squareGames.squareGamesAPI.entities.User;
 import com.squareGames.squareGamesAPI.services.UserCreationParams;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-@Repository
+@Service
 public class UserDAOImpl implements UserDAO{
 
     private List<User> users = new ArrayList<User>();
@@ -16,25 +17,25 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public User getUserById(UUID id) {
+    public User getUserById(int id) {
         return users.stream()
-                .filter(user -> user.getId().equals(id))
+                .filter(user -> user.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
     public User addUser(UserCreationParams params) {
-        User user = new User(params.name());
+        User user = new User(params.name(), params.id());
         users.add(user);
         return user;
     }
 
     @Override
-    public User updateUser(UUID id, UserCreationParams params) {
+    public User updateUser(int id, UserCreationParams params) {
 
         User userToUpdate = this.users.stream()
-                .filter(user -> user.getId().equals(id))
+                .filter(user -> user.getId() == id )
                 .findFirst()
                 .orElse(null);
             userToUpdate.setName(params.name());
@@ -48,9 +49,9 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public User deleteUser(UUID id) {
+    public User deleteUser(int id) {
         User userToRemove = this.users.stream()
-                .filter(user -> user.getId().equals(id))
+                .filter(user -> user.getId() == id)
                 .findFirst()
                 .orElse(null);
 //        for(User user : this.users){
