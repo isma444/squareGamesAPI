@@ -1,23 +1,31 @@
 package com.squareGames.squareGamesAPI.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String designation;
+
+    private int price;
+
+    @Transient
+    private List<String> notForDto = new ArrayList<>();
+
+
 
     public Product(String designation, int price) {
+        notForDto.add("id");
+        notForDto.add("notForDto");
         this.designation = designation;
         this.price = price;
     }
 
-    private String designation;
-
-    private int price;
 
     public Product() {
 
