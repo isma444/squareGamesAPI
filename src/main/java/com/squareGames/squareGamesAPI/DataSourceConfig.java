@@ -1,5 +1,6 @@
 package com.squareGames.squareGamesAPI;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,13 +11,19 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String userName;
+    @Value("${spring.datasource.password}")
+    private String mdp;
     @Bean
     @Profile("h2")
     public DataSource dataSourceH2(){
         return DataSourceBuilder.create()
-                .url("jdbc:h2:mem:testdb")
-                .username("sa")
-                .password("")
+                .url(url)
+                .username(userName)
+                .password(mdp)
                 .build();
     }
 
@@ -24,9 +31,10 @@ public class DataSourceConfig {
     @Profile("mysql")
     public DataSource dataSourceMysql(){
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:6603/square_games")
-                .username("root")
-                .password("helloworld")
+                .url(url)
+                .username(userName)
+                .password(mdp)
                 .build();
     }
+
 }
