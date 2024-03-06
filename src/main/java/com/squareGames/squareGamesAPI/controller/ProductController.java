@@ -1,6 +1,8 @@
 package com.squareGames.squareGamesAPI.controller;
 
-import com.squareGames.squareGamesAPI.DTO.ProductDto;
+
+import com.squareGames.squareGamesAPI.DTO.EntityDto;
+import com.squareGames.squareGamesAPI.entities.EntityObject;
 import com.squareGames.squareGamesAPI.entities.Product;
 import com.squareGames.squareGamesAPI.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -8,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Map;
+import javax.swing.text.html.parser.Entity;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.StreamSupport;
+
 
 @RestController
 public class ProductController {
@@ -19,54 +24,60 @@ public class ProductController {
     @Autowired
     private ProductRepository repository;
 
-    private ProductDto productToDTO(Product product) {
-        return new ProductDto(product.getDesignation(), product.getPrice());
-    }
+    private EntityDto dto = new EntityDto() ;
 
-    private Product DtoToProduct(ProductDto productDto) {
-        return new Product(productDto.designation(),productDto.price());
-    }
 
-    private Collection<ProductDto> ToDTOList(Collection<Product> products) {
-        return products.stream()
-                .map(this::productToDTO)
+
+    private Collection<Map<String, Object>> ToDTOList(Collection<EntityObject> entities) {
+        return entities.stream()
+                .map(entity -> dto.entityToDTO(entity))
                 .toList();
     }
     @PostMapping("/product")
-    public Map<String, Object> add(@RequestBody ProductDto productDto) {
+    public Map<String, Object> add(@RequestBody Map<String, Object> response) {
+
         LOGGER.info("adding a new product");
-        Product product = repository.save(DtoToProduct(productDto));
-        ProductDto productdto = new ProductDto(product);
+        EntityDto entityDto = new EntityDto();
+        entityDto.convert(response);
+        Product emptyProduct = new Product();
+        EntityObject product = repository.save((Product) entityDto.dtoToEntity(emptyProduct));
+        EntityDto productdto = new EntityDto(product);
         return productdto.getAttributs();
+
     }
     @GetMapping("/product")
-    public Collection<ProductDto> getAll(){
+    public Collection<Map<String, Object>>getAll(){
         LOGGER.info("Getting all products");
-        return ToDTOList((Collection<Product>) repository.findAll());
+        List<Map<String, Object>> entityList = new ArrayList<>();
+        StreamSupport.stream(repository.findAll().spliterator(), false)
+                .forEach(entity ->{
+                    entityList.add(dto.entityToDTO(entity));
+
+                });
+        return entityList;
     }
     @GetMapping("/product/{id}")
-    public ProductDto get(@PathVariable int id){
+    public Map<String, Object> get(@PathVariable int id){
         LOGGER.info("Getting the product");
         return repository.findById(id)
-                .map(this::productToDTO)
+                .map(entity -> dto.entityToDTO(entity))
                 .orElse(null);
     }
     @PutMapping("/product/{id}")
-    public ProductDto update(@PathVariable int id, @RequestBody ProductDto productDto){
+    public Map<String, Object> update(@PathVariable int id, @RequestBody Map<String , Object> response){
         LOGGER.info("updating the product");
-        Product product = repository.findById(id).orElse(null);
-        product.setDesignation(productDto.designation());
-        product.setPrice(productDto.price());
 
-        repository.save(product);
-
-        return productToDTO(product);
+        Product product = repository.findById(id).get();
+        dto.convert(response);
+        Product newProduct =  dto.dtoToEntity(product);
+        repository.save(newProduct);
+        return dto.entityToDTO(newProduct);
     }
     @DeleteMapping("/product/{id}")
-    public ProductDto delete(@PathVariable int id){
+    public Map<String,Object> delete(@PathVariable int id){
         LOGGER.info("Destroy the product");
-        ProductDto productDto = repository.findById(id).map(this::productToDTO).orElse(null);
+        Map<String, Object> entityDto = repository.findById(id).map(entity -> dto.entityToDTO(entity)).orElse(null);
         repository.deleteById(id);
-        return productDto;
+        return entityDto;
     }
 }

@@ -13,4 +13,12 @@ public abstract class EntityObject {
     public  List<String> getNotForDto() {
         return notForDto;
     }
+
+
+
+    public EntityObject() {
+        this.notForDto.add("id");
+        this.notForDto.add("notForDto");
+
+    }
 }

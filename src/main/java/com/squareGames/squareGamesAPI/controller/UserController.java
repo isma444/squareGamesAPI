@@ -4,6 +4,7 @@ import com.squareGames.squareGamesAPI.DAO.UserDAO;
 import com.squareGames.squareGamesAPI.DTO.UserDTO;
 import com.squareGames.squareGamesAPI.entities.User;
 import com.squareGames.squareGamesAPI.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public UserDTO add(@RequestBody UserDTO params) {
+    public UserDTO add(@Valid @RequestBody UserDTO params) {
         User addedUser = repository.save(DtoToUser(params));
         return userToDTO(addedUser);
     }

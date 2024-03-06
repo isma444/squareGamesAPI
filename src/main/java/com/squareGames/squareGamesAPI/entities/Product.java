@@ -1,27 +1,25 @@
 package com.squareGames.squareGamesAPI.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Product {
+public class Product extends EntityObject{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+
     private String designation;
 
     private int price;
 
-    @Transient
-    private List<String> notForDto = new ArrayList<>();
 
 
 
     public Product(String designation, int price) {
-        notForDto.add("id");
-        notForDto.add("notForDto");
+        super();
         this.designation = designation;
         this.price = price;
     }
